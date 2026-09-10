@@ -1,0 +1,64 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Property tour — SPATIA</title>
+<link rel="stylesheet" href="tour.css">
+</head><body>
+
+<div class="wrap">
+  <nav class="tour-nav"><a class="logo" href="index.html">SPATIA<span>•</span></a><span id="statusPill" class="status-pill" hidden>LIVE DIGITAL TWIN</span></nav>
+
+  <div id="loadingState">Loading property…</div>
+
+  <div id="notFoundState" hidden>
+    <p class="eyebrow">NOT FOUND</p>
+    <h1>This tour isn't available</h1>
+    <p>The link may be wrong, or the property hasn't been published yet.</p>
+  </div>
+
+  <div id="tourContent" hidden>
+    <div class="twin-hero"><div class="grid-floor"></div><div class="hero-cube"><div class="face front">3D<br>TWIN</div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div></div></div>
+
+    <div class="property-head">
+      <div>
+        <h1 id="propName"></h1>
+      </div>
+    </div>
+    <p class="property-desc" id="propDesc"></p>
+    <div class="fact-row" id="factRow"></div>
+
+    <div class="action-row" id="actionRow">
+      <button class="primary" id="btnBookViewing">Book a viewing</button>
+      <button class="ghost" id="btnShare">Share tour</button>
+      <a class="ghost" id="btnWhatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp agent</a>
+      <a class="ghost" id="btnBrochure" href="#" target="_blank" rel="noopener" hidden>Download brochure</a>
+    </div>
+
+    <p class="section-label">ROOMS</p>
+    <div class="room-grid" id="roomGrid"></div>
+
+    <div class="two-col">
+      <div class="panel chat">
+        <div class="chat-head"><b>SPATIA AI</b><span>● Online</span></div>
+        <div class="messages" id="messages"><div class="bot">Hi. I understand this property's rooms, features and listing data. Ask me anything.</div></div>
+        <div class="quick"><button data-q="How many bedrooms are there?">Bedrooms?</button><button data-q="What is the largest room?">Largest room?</button><button data-q="Does it have a pool?">Pool?</button></div>
+        <div class="chat-input"><input id="q" placeholder="Ask about this property…"><button id="btnAsk">Send</button></div>
+      </div>
+
+      <div class="panel">
+        <p class="section-label">ENQUIRE</p>
+        <form class="lead-form" id="leadForm">
+          <label>Name<input id="leadName" required></label>
+          <label>Phone or email<input id="leadContact" required></label>
+          <label>Message<textarea id="leadMessage" placeholder="I'd like to book a viewing…"></textarea></label>
+          <button class="primary" type="submit">Send enquiry</button>
+          <span class="lead-note" id="leadNote"></span>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>Powered by SPATIA</footer>
+</div>
+
+<script src="app/config.js"></script>
+<script type="module" src="tour.js"></script>
+</body></html>

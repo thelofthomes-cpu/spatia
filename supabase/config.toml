@@ -1,0 +1,4 @@
+project_id = "spatia"
+
+[functions.ask-ai]
+verify_jwt = false
