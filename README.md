@@ -111,7 +111,7 @@ Without `app/config.js` filled in, the app and tour page still load and show a
 ## Repo structure
 
 ```
-index.html, site.css, site.js     marketing site
+index.html, site.css, site.js, hero3d.js     marketing site (hero3d.js: real-time 3D hero walkthrough)
 app/index.html, app.js, styles.css, config.js, lib/   workspace app
 tour.html, tour.css, tour.js      public digital-twin viewer
 supabase/migrations/              database schema + RLS policies

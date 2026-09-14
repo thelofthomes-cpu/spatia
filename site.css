@@ -37,7 +37,7 @@ em{font-family:Georgia,serif;font-weight:400;font-style:italic}
 .hero-note{font-size:12px;color:#999;margin-top:14px}
 
 .hero-visual{margin-top:52px;background:#e8e4db;border-radius:22px;padding:0;overflow:hidden;position:relative;min-height:420px;display:grid;place-items:center}
-.hero-video{width:100%;height:100%;min-height:420px;object-fit:cover;display:block}
+.hero-canvas{width:100%;height:100%;min-height:420px;display:block}
 
 /* stat strip */
 .stat-strip{padding:36px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
