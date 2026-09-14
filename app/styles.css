@@ -17,4 +17,12 @@
 .leads-table th{text-align:left;font-size:10px;letter-spacing:.1em;color:#8a887f;text-transform:uppercase;padding:10px 8px;border-bottom:1px solid var(--line)}
 .leads-table td{padding:12px 8px;border-bottom:1px solid var(--line);color:#333}
 .saved-note{color:#2e7d32;font-size:12.5px;font-weight:700}
+.rooms-editor{display:grid;gap:8px;margin:14px 0;max-height:340px;overflow-y:auto}
+.room-row{display:grid;grid-template-columns:1.2fr .9fr 1.2fr auto;gap:8px;align-items:center;background:#f6f5f1;border-radius:9px;padding:8px}
+.room-row input,.room-row select{padding:9px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.room-actions{display:flex;gap:4px}
+.room-actions button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 9px;font-size:12px}
+.add-room{display:grid;grid-template-columns:1.6fr 1fr auto;gap:8px;margin-top:6px}
+.add-room input,.add-room select{padding:11px;border:1px solid var(--line);border-radius:8px}
+@media(max-width:600px){.room-row{grid-template-columns:1fr}.add-room{grid-template-columns:1fr}}
 @media(max-width:900px){aside{width:75px;padding:22px 10px}.logo{font-size:15px}.tag,.sidecard,nav a{font-size:0}.app main{margin-left:75px;width:calc(100% - 75px);padding:22px}.hero-art{display:none}.grid,.ai-layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.project-grid{grid-template-columns:1fr 1fr}h2{font-size:32px}}@media(max-width:600px){.stats,.project-grid{grid-template-columns:1fr}.header-actions .ghost{display:none}}

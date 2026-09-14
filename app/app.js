@@ -209,6 +209,7 @@ function projectCardHTML(p) {
     <div class="body">
       <b>${name}</b><p>${meta}</p><span class="status">${p.status}</span>
       <div class="card-actions">
+        <button class="textbtn" data-action="manage-rooms" data-id="${p.id}">Rooms</button>
         <button class="textbtn" data-action="toggle-publish" data-id="${p.id}">${publishLabel}</button>
         ${p.status === 'LIVE' ? `<a class="textbtn" href="${tourUrl(p.id)}" target="_blank" rel="noopener">View tour →</a>` : ''}
       </div>
@@ -245,6 +246,11 @@ function renderProjectGrid() {
 }
 
 els.allProjects.addEventListener('click', async (e) => {
+  const roomsBtn = e.target.closest('[data-action="manage-rooms"]');
+  if (roomsBtn) {
+    roomsModal(roomsBtn.dataset.id);
+    return;
+  }
   const btn = e.target.closest('[data-action="toggle-publish"]');
   if (!btn) return;
   const project = projects.find((p) => p.id === btn.dataset.id);
@@ -343,6 +349,102 @@ async function createProject() {
 document.getElementById('btnNewProjectSide').addEventListener('click', newProjectModal);
 document.getElementById('btnNewProjectTop').addEventListener('click', newProjectModal);
 document.getElementById('btnNewProjectProjects').addEventListener('click', newProjectModal);
+
+// ---------------------------------------------------------------------
+// Room editor
+// ---------------------------------------------------------------------
+
+const ROOM_TYPES = ['', 'living', 'kitchen', 'bedroom', 'bathroom', 'outdoor', 'other'];
+
+function roomsModal(projectId) {
+  const project = projects.find((p) => p.id === projectId);
+  openModal(`<p class="eyebrow">ROOMS</p><h2>${escapeHTML(project?.name || 'Property')}</h2>
+    <p style="color:#777;margin-top:-6px">These rooms are what SPATIA AI and the public tour show to buyers.</p>
+    <div id="roomsList" class="rooms-editor">Loading…</div>
+    <div class="add-room">
+      <input id="newRoomName" placeholder="Room name, e.g. Dining Room">
+      <select id="newRoomType">${ROOM_TYPES.map((t) => `<option value="${t}">${t || 'Type…'}</option>`).join('')}</select>
+      <button class="primary" id="btnAddRoom">Add room</button>
+    </div>`);
+  loadRoomsEditor(projectId);
+  document.getElementById('btnAddRoom').addEventListener('click', () => addRoom(projectId));
+}
+
+async function loadRoomsEditor(projectId) {
+  const list = document.getElementById('roomsList');
+  const { data: rooms, error } = await supabase.from('rooms').select('*').eq('project_id', projectId).order('sort_order');
+  if (error) {
+    list.innerHTML = '<p style="color:#a3271e">Could not load rooms.</p>';
+    return;
+  }
+  if (!rooms.length) {
+    list.innerHTML = '<p style="color:#888">No rooms yet — add the first one below.</p>';
+    return;
+  }
+  list.innerHTML = rooms
+    .map(
+      (r, i) => `<div class="room-row" data-id="${r.id}">
+      <input value="${escapeHTML(r.name)}" data-field="name" placeholder="Room name">
+      <select data-field="room_type">${ROOM_TYPES.map((t) => `<option value="${t}" ${r.room_type === t ? 'selected' : ''}>${t || 'Type…'}</option>`).join('')}</select>
+      <input value="${escapeHTML(r.notes || '')}" data-field="notes" placeholder="Notes (optional)">
+      <div class="room-actions">
+        <button type="button" data-action="up" ${i === 0 ? 'disabled' : ''} title="Move up">↑</button>
+        <button type="button" data-action="down" ${i === rooms.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
+        <button type="button" data-action="delete" title="Delete">Delete</button>
+      </div>
+    </div>`
+    )
+    .join('');
+
+  list.querySelectorAll('input, select').forEach((field) =>
+    field.addEventListener('change', () => updateRoomField(field.closest('.room-row').dataset.id, field.dataset.field, field.value))
+  );
+  list.querySelectorAll('[data-action="delete"]').forEach((btn) =>
+    btn.addEventListener('click', () => deleteRoom(projectId, btn.closest('.room-row').dataset.id))
+  );
+  list.querySelectorAll('[data-action="up"]').forEach((btn) =>
+    btn.addEventListener('click', () => moveRoom(projectId, rooms, btn.closest('.room-row').dataset.id, -1))
+  );
+  list.querySelectorAll('[data-action="down"]').forEach((btn) =>
+    btn.addEventListener('click', () => moveRoom(projectId, rooms, btn.closest('.room-row').dataset.id, 1))
+  );
+}
+
+async function updateRoomField(roomId, field, value) {
+  await supabase.from('rooms').update({ [field]: value || null }).eq('id', roomId);
+}
+
+async function deleteRoom(projectId, roomId) {
+  await supabase.from('rooms').delete().eq('id', roomId);
+  loadRoomsEditor(projectId);
+}
+
+async function moveRoom(projectId, rooms, roomId, direction) {
+  const idx = rooms.findIndex((r) => r.id === roomId);
+  const swapIdx = idx + direction;
+  if (swapIdx < 0 || swapIdx >= rooms.length) return;
+  const a = rooms[idx];
+  const b = rooms[swapIdx];
+  await Promise.all([
+    supabase.from('rooms').update({ sort_order: b.sort_order }).eq('id', a.id),
+    supabase.from('rooms').update({ sort_order: a.sort_order }).eq('id', b.id),
+  ]);
+  loadRoomsEditor(projectId);
+}
+
+async function addRoom(projectId) {
+  const nameInput = document.getElementById('newRoomName');
+  const typeSelect = document.getElementById('newRoomType');
+  const name = nameInput.value.trim();
+  if (!name) return;
+  const { data: existing } = await supabase.from('rooms').select('sort_order').eq('project_id', projectId).order('sort_order', { ascending: false }).limit(1);
+  const nextOrder = existing?.length ? existing[0].sort_order + 1 : 0;
+  await supabase.from('rooms').insert({ project_id: projectId, name, room_type: typeSelect.value || null, sort_order: nextOrder });
+  nameInput.value = '';
+  typeSelect.value = '';
+  loadRoomsEditor(projectId);
+  renderRoomChips();
+}
 
 // ---------------------------------------------------------------------
 // SPATIA AI
