@@ -10,6 +10,8 @@ An original kawaii coloring book for adults and teens, ready for Amazon KDP and 
 | `CozyLittleWorld_KDP_Cover_Wraparound.pdf` | KDP full cover: 17.376 x 11.25 in (0.125 in bleed, 0.1261 in spine) |
 | `CozyLittleWorld_Front_Cover.png` / `.pdf` | Front cover for listings, mockups and Etsy thumbnail |
 | `CozyLittleWorld_Printable_US-Letter.pdf` | Etsy digital download: title, color test, 24 pages and thank-you, no blank backs |
+| `full-book/CozyLittleWorld_Full_Book.pdf` | The whole book in reading order: front cover, all 56 interior pages and back cover (58 pages) |
+| `full-book/png/` | 300 dpi PNG (2550 x 3300) of every page with content, named by page number (31 files; blank backs skipped) |
 | `previews/` | 300 dpi-wide PNGs of every page, plus `all-24-pages.png` and `cover-wraparound.png` |
 
 Brand: the **Diamond Spade** logo (faceted gold spade with a serif wordmark) is in `brand/diamond-spade/` as SVG, PNG and PDF in stacked, horizontal and icon-only versions, including on-navy, black and white variants. Regenerate it with `python3 brand/logo.py`. Fonts: Baloo 2 and Cormorant Garamond (both SIL OFL).

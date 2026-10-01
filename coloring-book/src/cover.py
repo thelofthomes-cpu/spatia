@@ -142,7 +142,7 @@ def front():
     plain_text(425, 1049, "Relaxing Kawaii Scenes for Adults &amp; Teens", 27, INK, 800)
 
 
-def back():
+def back(barcode=True):
     R(-BLEED - 2, -BLEED - 2, 850 + 2 * BLEED + 4, 1100 + 2 * BLEED + 4, 0, CREAM, 0)
     confetti(11, 0, 0, 850, 1100, 50)
     big_text(425, 130, "Welcome to a", 62, MINT, 6, 5)
@@ -177,7 +177,8 @@ def back():
             heart(130, y - 8, 0.75, 0, D)
         plain_text(160, y, f, 28, INK, 700, "start")
     # barcode safe zone (KDP prints the barcode here)
-    R(850 - 25 - 200, 1100 - 25 - 120, 200, 120, 0, WHITE, 0)
+    if barcode:
+        R(850 - 25 - 200, 1100 - 25 - 120, 200, 120, 0, WHITE, 0)
     # publisher mark
     R(45, 965, 370, 95, 0, CREAM, 0)
     embed(logo.horizontal(logo.NAVY), 60, 975, 340)
@@ -188,6 +189,12 @@ def front_svg():
     with T(BLEED, BLEED):
         front()
     return page.svg_doc(ink.take(), 850 + 2 * BLEED, 1100 + 2 * BLEED, CREAM)
+
+
+def back_trim_svg():
+    ink.reset()
+    back(barcode=False)
+    return page.svg_doc(ink.take(), 850, 1100, CREAM)
 
 
 def front_trim_svg():

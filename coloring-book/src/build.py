@@ -129,8 +129,11 @@ def main():
     prev = os.path.join(OUT, "previews")
     os.makedirs(prev, exist_ok=True)
 
+    svgs = {}
+
     def emit(name, svg, png=False):
         p = os.path.join(TMP, name + ".pdf")
+        svgs[p] = (name, svg)
         page.to_pdf(svg, p)
         if png:
             page.to_png(svg, os.path.join(prev, name + ".png"), 1275)
@@ -166,9 +169,36 @@ def main():
     page.to_png(cover.front_trim_svg(), os.path.join(OUT, "CozyLittleWorld_Front_Cover.png"), 2550)
     print(f"interior pages: {len(kdp)}  |  cover {w:.3f} x {h:.3f} in, spine {spine:.4f} in")
     contact_sheet(prev)
+    full_book(kdp, svgs, blank_pdf)
     for f in os.listdir(TMP):
         os.remove(os.path.join(TMP, f))
     os.rmdir(TMP)
+
+
+def full_book(kdp, svgs, blank_pdf):
+    """The whole book in reading order (front cover, interior, back cover) as
+    one PDF, plus a 300 dpi PNG of every page that has content."""
+    d = os.path.join(OUT, "full-book")
+    png_dir = os.path.join(d, "png")
+    os.makedirs(png_dir, exist_ok=True)
+    for f in os.listdir(png_dir):
+        os.remove(os.path.join(png_dir, f))
+    front_svg, back_svg = cover.front_trim_svg(), cover.back_trim_svg()
+    fpdf, bpdf = os.path.join(TMP, "cover-front.pdf"), os.path.join(TMP, "cover-back.pdf")
+    page.to_pdf(front_svg, fpdf)
+    page.to_pdf(back_svg, bpdf)
+    write([fpdf] + kdp + [bpdf], os.path.join(d, "CozyLittleWorld_Full_Book.pdf"))
+
+    page.to_png(front_svg, os.path.join(png_dir, "000-front-cover.png"), 2550)
+    n = 0
+    for i, p in enumerate(kdp, 1):
+        if p == blank_pdf:
+            continue
+        name = svgs[p][0].replace("00-", "")
+        page.to_png(svgs[p][1], os.path.join(png_dir, f"{i:03d}-{name}.png"), 2550)
+        n += 1
+    page.to_png(back_svg, os.path.join(png_dir, f"{len(kdp) + 1:03d}-back-cover.png"), 2550)
+    print(f"full book: {len(kdp) + 2} PDF pages, {n + 2} PNGs (blank backs skipped)")
 
 
 def write(paths, dest):
