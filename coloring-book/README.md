@@ -37,4 +37,4 @@ mkdir -p ~/.fonts && cp fonts/Baloo2.ttf ~/.fonts/ && fc-cache -f   # Baloo 2 (S
 cd src && python3 build.py
 ```
 
-Before publishing, put your name on the copyright page (`copyright_page()` in `src/build.py`) and rebuild.
+Author and copyright holder: Diamond Spade (set in `src/build.py`).

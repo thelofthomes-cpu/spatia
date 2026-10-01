@@ -52,7 +52,7 @@ def copyright_page():
         ("Cozy Little World", 34, 800),
         ("24 Cute &amp; Easy Coloring Pages", 26, 700),
         ("", 20, 600),
-        ("Copyright © 2026 [Your Name / Studio Name]. All rights reserved.", 20, 600),
+        ("Copyright © 2026 Diamond Spade. All rights reserved.", 20, 600),
         ("No part of this book may be reproduced, distributed or transmitted", 20, 600),
         ("in any form without the prior written permission of the publisher,", 20, 600),
         ("except for personal, non-commercial coloring use.", 20, 600),
@@ -175,7 +175,7 @@ def write(paths, dest):
     wr = PdfWriter()
     for p in paths:
         wr.append(PdfReader(p))
-    wr.add_metadata({"/Title": f"{TITLE}: 24 Cute & Easy Coloring Pages", "/Author": "[Your Name]"})
+    wr.add_metadata({"/Title": f"{TITLE}: 24 Cute & Easy Coloring Pages", "/Author": "Diamond Spade"})
     with open(dest, "wb") as f:
         wr.write(f)
 

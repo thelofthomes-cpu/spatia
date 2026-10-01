@@ -66,7 +66,7 @@ Shorter alternates (for A/B or a series):
 - Interior: `output/CozyLittleWorld_KDP_Interior_8.5x11.pdf`, 56 pages, 8.5 x 11 in, **no bleed**, black & white interior, white paper.
 - Cover: `output/CozyLittleWorld_KDP_Cover_Wraparound.pdf`, 17.376 x 11.25 in (0.125 in bleed, 0.1261 in spine for 56 white pages). There is no spine text because KDP requires 79+ pages for it.
 - Matte cover finish suits the pastel look.
-- Before uploading, replace "[Your Name / Studio Name]" on the copyright page (`src/build.py`, `copyright_page`) and rebuild.
+- Author / copyright holder: **Diamond Spade** (set in `src/build.py`; enter the same name in the KDP and Etsy author fields).
 - AI disclosure: the art was drawn procedurally with code, not with an image-generation model. Answer KDP's AI-content question to match how you describe your process.
 
 ---
