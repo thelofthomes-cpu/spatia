@@ -12,6 +12,8 @@ An original kawaii coloring book for adults and teens, ready for Amazon KDP and 
 | `CozyLittleWorld_Printable_US-Letter.pdf` | Etsy digital download: title, color test, 24 pages and thank-you, no blank backs |
 | `previews/` | 300 dpi-wide PNGs of every page, plus `all-24-pages.png` and `cover-wraparound.png` |
 
+Brand: the **Diamond Spade** logo (faceted gold spade with a serif wordmark) is in `brand/diamond-spade/` as SVG, PNG and PDF in stacked, horizontal and icon-only versions, including on-navy, black and white variants. Regenerate it with `python3 brand/logo.py`. Fonts: Baloo 2 and Cormorant Garamond (both SIL OFL).
+
 Marketing copy (title/subtitle, KDP description, 7 keywords, Etsy listing, 10 social posts) is in [`MARKETING.md`](MARKETING.md).
 
 ## Pages
@@ -32,7 +34,7 @@ Everything is vector line art drawn with code, so lines are crisp at any print s
 Rebuild:
 
 ```bash
-pip install cairosvg pypdf pillow
+pip install cairosvg pypdf pillow fonttools
 mkdir -p ~/.fonts && cp fonts/Baloo2.ttf ~/.fonts/ && fc-cache -f   # Baloo 2 (SIL OFL)
 cd src && python3 build.py
 ```

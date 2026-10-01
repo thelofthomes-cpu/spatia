@@ -18,7 +18,8 @@ Shorter alternates (for A/B or a series):
 - **Palette:** cream background with pastel pink, butter yellow, mint, sky blue and grass green. It is soft and warm and stands out among dark, busy coloring covers in thumbnail view.
 - **Layout:** a big chunky outlined title (pink "Cozy Little", yellow "World") over a teal ribbon that reads "24 Cute & Easy Coloring Pages". Under that is an arch with a sky window. The hero trio stands in front of it: a bunny with a heart mug, a bear with a cupcake and a cat with a teacup. They sit on a green hill with flowers, and a white pill at the bottom reads "Relaxing Kawaii Scenes for Adults & Teens".
 - **Why it sells:** the faces are large and easy to read at thumbnail size, the colors signal "cozy and cute", and the subtitle answers what buyers ask most ("is it easy?").
-- **Back cover:** a welcome headline, a two-line blurb, 3 sample-page thumbnails, 5 heart bullet features and a blank barcode zone.
+- **Author line:** "by Diamond Spade" at the top of the front cover, next to the small gold spade icon.
+- **Back cover:** a welcome headline, a two-line blurb, 3 sample-page thumbnails, 5 heart bullet features, the Diamond Spade publisher logo and a blank barcode zone.
 
 ---
 

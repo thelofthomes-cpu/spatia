@@ -5,6 +5,32 @@ from critters import critter
 from props import *
 import scenes
 import page
+import re
+import sys as _sys
+import os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "brand"))
+import logo
+
+AUTHOR = "Diamond Spade"
+
+
+def embed(svg_str, x, y, w):
+    """Place a standalone logo SVG at (x, y) scaled to width w."""
+    vb = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', svg_str)
+    vw, vh = float(vb.group(1)), float(vb.group(2))
+    inner = svg_str[svg_str.index(">") + 1: svg_str.rindex("</svg>")]
+    raw(f'<g transform="translate({x} {y}) scale({w / vw:.4f})">{inner}</g>')
+    return w * vh / vw
+
+
+def author_line(cx, y, size=26):
+    """small gold faceted spade + 'by Diamond Spade', centred on cx"""
+    label = f"by {AUTHOR}"
+    tw = size * 0.5 * len(label)
+    k = size * 1.25 / 200
+    x0 = cx - (tw + 200 * k * 0.9 + 10) / 2
+    raw(f'<g transform="translate({x0 + 90 * k:.1f} {y - size * 0.36:.1f}) scale({k:.4f})">{logo.icon()}</g>')
+    plain_text(x0 + 180 * k + 10, y, label, size, INK, 700, "start")
 
 BLEED = 12.5            # 0.125 in
 CREAM = "#fff3e4"
@@ -72,13 +98,14 @@ def front():
     R(-BLEED - 2, -BLEED - 2, 850 + 2 * BLEED + 4, 1100 + 2 * BLEED + 4, 0, CREAM, 0)
     confetti(7, 0, 0, 850, 1100, 60)
     # title
-    big_text(425, 175, "Cozy Little", 132, PINK)
-    big_text(425, 318, "World", 160, BUTTER)
+    author_line(425, 72)
+    big_text(425, 196, "Cozy Little", 124, PINK)
+    big_text(425, 330, "World", 150, BUTTER)
     with Tint(PINK):
-        heart(640, 236, 1.3, 15)
+        heart(632, 252, 1.25, 15)
     with Tint(MINT):
-        sparkle(160, 250, 2.0, W)
-    ribbon(425, 392, 560, 66, "24 Cute &amp; Easy Coloring Pages", TEAL, 38)
+        sparkle(170, 262, 1.9, W)
+    ribbon(425, 396, 560, 62, "24 Cute &amp; Easy Coloring Pages", TEAL, 38)
 
     # illustration
     C(425, 790, 345, SKY, W)
@@ -151,10 +178,9 @@ def back():
         plain_text(160, y, f, 28, INK, 700, "start")
     # barcode safe zone (KDP prints the barcode here)
     R(850 - 25 - 200, 1100 - 25 - 120, 200, 120, 0, WHITE, 0)
-    with Tint(BUTTER):
-        star(120, 1010, 0.9, -10)
-    with Tint(MINT):
-        sparkle(210, 1040, 1.4, D)
+    # publisher mark
+    R(45, 965, 370, 95, 0, CREAM, 0)
+    embed(logo.horizontal(logo.NAVY), 60, 975, 340)
 
 
 def front_svg():
